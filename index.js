@@ -45,12 +45,13 @@ app.get("/api/:date?", function (req, res) {
   let dateInput = req.params.date;
   if (isDateValid(dateInput)) {
     let date = new Date(dateInput);
-    console.log(date.toUTCString());
-    console.log(date.getTime());
     res.json({unix: date.getTime(), utc: date.toUTCString()});
   } else if (isValidUnixTimestamp(dateInput)) {
     let date = unixToDate(dateInput);
     res.json({unix: parseInt(dateInput), utc: date});
+  } else if (!dateInput || dateInput.trim() === '') {
+    let currentDate = new Date()
+    res.json({unix: currentDate.getTime(), utc: currentDate.toUTCString()})
   } else {
     res.json({ error : "Invalid Date" })
   }
