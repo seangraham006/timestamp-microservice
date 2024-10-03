@@ -28,6 +28,19 @@ function isDateValid(dateStr) {
   return !isNaN(new Date(dateStr))
 }
 
+function isValidUnixTimestamp(value) {
+  // Convert the value to a number
+  const timestamp = Number(value);
+
+  // Check if it is a valid number and corresponds to a valid date
+  return !isNaN(timestamp) && new Date(timestamp).getTime() > 0;
+}
+
+function unixToDate(unixValue) {
+  // Convert the Unix timestamp to a Date object
+  return (new Date(Number(unixValue))).toUTCString();
+}
+
 app.get("/api/:date?", function (req, res) {
   let dateInput = req.params.date;
   if (isDateValid(dateInput)) {
@@ -35,7 +48,10 @@ app.get("/api/:date?", function (req, res) {
     console.log(date.toUTCString());
     console.log(date.getTime());
     res.json({unix: date.getTime(), utc: date.toUTCString()});
-  };
+  } else if (isValidUnixTimestamp(dateInput)) {
+    let date = unixToDate(dateInput);
+    res.json({unix: dateInput, utc: date});
+  }
 })
 
 
