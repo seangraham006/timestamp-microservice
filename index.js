@@ -50,7 +50,7 @@ app.get("/api/:date?", function (req, res) {
     res.json({unix: date.getTime(), utc: date.toUTCString()});
   } else if (isValidUnixTimestamp(dateInput)) {
     let date = unixToDate(dateInput);
-    res.json({unix: dateInput, utc: date});
+    res.json({unix: parseInt(dateInput), utc: date});
   }
 })
 
