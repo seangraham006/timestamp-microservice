@@ -51,6 +51,8 @@ app.get("/api/:date?", function (req, res) {
   } else if (isValidUnixTimestamp(dateInput)) {
     let date = unixToDate(dateInput);
     res.json({unix: parseInt(dateInput), utc: date});
+  } else {
+    res.json({ error : "Invalid Date" })
   }
 })
 
