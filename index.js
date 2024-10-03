@@ -31,7 +31,10 @@ function isDateValid(dateStr) {
 app.get("/api/:date?", function (req, res) {
   let dateInput = req.params.date;
   if (isDateValid(dateInput)) {
-    console.log((new Date(dateInput)).toUTCString())
+    let date = new Date(dateInput);
+    console.log(date.toUTCString());
+    console.log(date.getTime());
+    res.json({unix: date.getTime(), utc: date.toUTCString()});
   };
 })
 
